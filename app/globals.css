@@ -432,28 +432,52 @@ textarea.input-field { resize: none; height: 96px; line-height: 1.6; }
 
 /* ── PAGE TRANSITION ──────────────────────────────────────────────────────── */
 @keyframes pageFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
 }
 .page-enter {
-  animation: pageFadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* ── HERO BACKGROUND GRID ─────────────────────────────────────────────────── */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 52px 52px;
+  opacity: 0.55;
+  mask-image: radial-gradient(ellipse 75% 100% at 25% 0%, black 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 100% at 25% 0%, black 0%, transparent 72%);
+  pointer-events: none;
+}
+
+/* ── HERO ENTRY ANIMATION ─────────────────────────────────────────────────── */
+@keyframes heroUp {
+  from { opacity: 0; transform: translateY(32px); filter: blur(5px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+}
+.hero-up-0 { animation: heroUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.hero-up-1 { animation: heroUp 0.90s cubic-bezier(0.16, 1, 0.3, 1) 0.30s both; }
+.hero-up-2 { animation: heroUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both; }
+.hero-up-3 { animation: heroUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.68s both; }
 
 /* ── SCROLL REVEAL ────────────────────────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(38px);
+  transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.reveal--visible {
   opacity: 1;
   transform: translateY(0);
 }
-.reveal--delay-1 { transition-delay: 0.1s; }
-.reveal--delay-2 { transition-delay: 0.2s; }
-.reveal--delay-3 { transition-delay: 0.3s; }
-.reveal--delay-4 { transition-delay: 0.4s; }
+.reveal--delay-1 { transition-delay: 0.08s; }
+.reveal--delay-2 { transition-delay: 0.18s; }
+.reveal--delay-3 { transition-delay: 0.28s; }
+.reveal--delay-4 { transition-delay: 0.38s; }
 
 /* ── LOADING STEPS ────────────────────────────────────────────────────────── */
 @keyframes stepIn {

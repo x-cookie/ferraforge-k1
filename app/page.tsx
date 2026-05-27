@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import Link from 'next/link'
 import ForgeCard, { ForgeResult } from '@/components/ForgeCard'
 import ResultPreview from '@/components/ResultPreview'
@@ -13,6 +13,45 @@ const TAPE_ITEMS = [
   'GITHUB API', 'TECH STACK DETECTION', 'SETUP GUIDE',
   '59 CLAUDE SKILLS', 'CLAUDE CODE READY',
 ]
+
+function RepoSvgIcon({ variant }: { variant: number }) {
+  const paths: Record<number, React.ReactNode> = {
+    0: ( // Karpathy — radiant mind
+      <>
+        <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </>
+    ),
+    1: ( // Repomix — stacked layers
+      <>
+        <rect x="3" y="3" width="18" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+        <rect x="3" y="10" width="18" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+        <rect x="3" y="17" width="18" height="4" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+      </>
+    ),
+    2: ( // Awesome Claude Skills — star
+      <path d="M12 2l2.4 7.4H22l-6.3 4.6 2.4 7.4L12 17.2l-6.1 4.2 2.4-7.4L2 9.4h7.6z"
+        stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+    ),
+    3: ( // Superpowers — lightning bolt
+      <path d="M13 2L4 14h8l-1 8 9-12h-8z"
+        stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+    ),
+    4: ( // ECC — code brackets
+      <>
+        <polyline points="16,18 22,12 16,6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        <polyline points="8,6 2,12 8,18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </>
+    ),
+  }
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      {paths[variant]}
+    </svg>
+  )
+}
 
 export default function HomePage() {
   const [forgeResult, setForgeResult] = useState<ForgeResult | null>(null)
@@ -46,31 +85,24 @@ export default function HomePage() {
       </nav>
 
       {/* HERO */}
-      <section style={{ padding: '80px 28px 64px' }}>
-        <div className="container">
+      <section style={{ padding: '80px 28px 64px', position: 'relative', overflow: 'hidden' }}>
+        <div className="hero-grid-bg" aria-hidden="true" />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ maxWidth: 720 }}>
-            <Reveal>
-              <span className="section-label">Claude Code Setup Generator</span>
-            </Reveal>
-            <Reveal delay={1}>
-              <h1 className="editorial-h" style={{ marginBottom: 26 }}>
-                Your perfect<br />
-                Claude Code setup.<br />
-                <em className="orange">Forged in 30 seconds.</em>
-              </h1>
-            </Reveal>
-            <Reveal delay={2}>
-              <p style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
-                Paste a GitHub URL or describe your project. Get a production-ready CLAUDE.md,
-                curated skill pack, hooks, and agents — tailored to your exact stack.
-              </p>
-            </Reveal>
-            <Reveal delay={3}>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-                <button className="btn-primary" onClick={scrollToForge}>Try the Forge →</button>
-                <Link href="/skills" className="btn-outline">Browse 59 Skills</Link>
-              </div>
-            </Reveal>
+            <span className="section-label hero-up-0">Claude Code Setup Generator</span>
+            <h1 className="editorial-h hero-up-1" style={{ marginBottom: 26 }}>
+              Your perfect<br />
+              Claude Code setup.<br />
+              <em className="orange">Forged in 30 seconds.</em>
+            </h1>
+            <p className="hero-up-2" style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
+              Paste a GitHub URL or describe your project. Get a production-ready CLAUDE.md,
+              curated skill pack, hooks, and agents — tailored to your exact stack.
+            </p>
+            <div className="hero-up-3" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+              <button className="btn-primary" onClick={scrollToForge}>Try the Forge →</button>
+              <Link href="/skills" className="btn-outline">Browse 59 Skills</Link>
+            </div>
           </div>
 
           {/* STATS */}
@@ -141,11 +173,11 @@ export default function HomePage() {
           </Reveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(195px, 1fr))', gap: 12 }}>
             {[
-              { emoji: '🧠', name: 'Karpathy Skills', slug: 'andrej-karpathy-skills', desc: "Andrej Karpathy's coding philosophy — think clearly, write simply, reason step-by-step" },
-              { emoji: '📦', name: 'Repomix', slug: 'yamadashy/repomix', desc: 'Pack entire repos into AI-friendly context. Powers the GitHub URL scan pipeline' },
-              { emoji: '⚡', name: 'Awesome Claude Skills', slug: 'awesome-claude-skills', desc: 'Community-curated library of Claude Code skills — the backbone of the 59-skill library' },
-              { emoji: '🦸', name: 'Superpowers', slug: 'superpowers', desc: 'Extended Claude capabilities — advanced agent configs and tooling patterns' },
-              { emoji: '🔬', name: 'ECC', slug: 'ECC', desc: 'Extended Claude Code — deep workflow automation and integration patterns' },
+              { name: 'Karpathy Skills', slug: 'andrej-karpathy-skills', desc: "Andrej Karpathy's coding philosophy — think clearly, write simply, reason step-by-step" },
+              { name: 'Repomix', slug: 'yamadashy/repomix', desc: 'Pack entire repos into AI-friendly context. Powers the GitHub URL scan pipeline' },
+              { name: 'Awesome Claude Skills', slug: 'awesome-claude-skills', desc: 'Community-curated library of Claude Code skills — the backbone of the 59-skill library' },
+              { name: 'Superpowers', slug: 'superpowers', desc: 'Extended Claude capabilities — advanced agent configs and tooling patterns' },
+              { name: 'ECC', slug: 'ECC', desc: 'Extended Claude Code — deep workflow automation and integration patterns' },
             ].map((repo, i) => (
               <Reveal key={repo.slug} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
                 <div
@@ -153,7 +185,7 @@ export default function HomePage() {
                   onMouseOver={e => (e.currentTarget.style.borderColor = '#E05C15')}
                   onMouseOut={e => (e.currentTarget.style.borderColor = '#2A2A24')}
                 >
-                  <div style={{ fontSize: 22, marginBottom: 12 }}>{repo.emoji}</div>
+                  <div style={{ color: '#E05C15', marginBottom: 14 }}><RepoSvgIcon variant={i} /></div>
                   <div style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 14, color: '#FAFAF7', marginBottom: 4 }}>{repo.name}</div>
                   <div className="mono" style={{ fontSize: 10.5, color: 'var(--orange)', marginBottom: 10 }}>{repo.slug}</div>
                   <div style={{ fontSize: 12.5, color: '#666', lineHeight: 1.6 }}>{repo.desc}</div>
