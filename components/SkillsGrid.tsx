@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { SKILLS, CATEGORIES, Skill } from '@/lib/skills'
+import Link from 'next/link'
+import { SKILLS, CATEGORIES, Skill, toSlug } from '@/lib/skills'
 
 type Props = {
   onOpenModal: (skill: Skill) => void
@@ -60,7 +61,7 @@ export default function SkillsGrid({ onOpenModal }: Props) {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 12 }}>
           {filtered.map(skill => (
-            <div key={skill.id} className="skill-card" onClick={() => onOpenModal(skill)}>
+            <div key={skill.id} className="skill-card" onClick={() => onOpenModal(skill)} style={{ position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                 <span className="badge badge-cat">{skill.cat}</span>
                 <span className={`badge badge-${skill.diff}`}>{skill.diff}</span>
@@ -71,10 +72,19 @@ export default function SkillsGrid({ onOpenModal }: Props) {
               <p style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.55, marginBottom: 12 }}>
                 {skill.desc}
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                {skill.tags.slice(0, 3).map(t => (
-                  <span key={t} className="tag">{t}</span>
-                ))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                  {skill.tags.slice(0, 3).map(t => (
+                    <span key={t} className="tag">{t}</span>
+                  ))}
+                </div>
+                <Link
+                  href={`/skills/${toSlug(skill.title)}`}
+                  onClick={e => e.stopPropagation()}
+                  style={{ fontSize: 11, color: 'var(--orange)', fontFamily: 'var(--font-dm-mono), DM Mono, monospace', flexShrink: 0, marginLeft: 8 }}
+                >
+                  details →
+                </Link>
               </div>
             </div>
           ))}

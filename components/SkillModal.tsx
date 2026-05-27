@@ -1,6 +1,7 @@
 'use client'
 
-import { Skill } from '@/lib/skills'
+import Link from 'next/link'
+import { Skill, toSlug } from '@/lib/skills'
 
 type Props = {
   skill: Skill | null
@@ -66,13 +67,21 @@ export default function SkillModal({ skill, onClose }: Props) {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <button className="btn-primary" style={{ fontSize: 13.5, padding: '11px 22px' }} onClick={onClose}>
             Use in Forge 🔨
           </button>
           <button className="btn-outline" style={{ fontSize: 13.5 }} onClick={copySnippet}>
             Copy Skill
           </button>
+          <Link
+            href={`/skills/${toSlug(skill.title)}`}
+            className="btn-outline"
+            style={{ fontSize: 13.5 }}
+            onClick={onClose}
+          >
+            Full details →
+          </Link>
         </div>
       </div>
     </div>
