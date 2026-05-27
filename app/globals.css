@@ -467,12 +467,14 @@ textarea.input-field { resize: none; height: 96px; line-height: 1.6; }
 .reveal {
   opacity: 0;
   transform: translateY(38px);
+  pointer-events: none;
   transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.reveal--visible {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
 }
 .reveal--delay-1 { transition-delay: 0.08s; }
 .reveal--delay-2 { transition-delay: 0.18s; }
@@ -590,10 +592,37 @@ textarea.input-field { resize: none; height: 96px; line-height: 1.6; }
 
 hr { border: none; border-top: 1px solid var(--border); }
 
-/* SLIDE-UP (test-drive modal) */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── DIALOG ANIMATIONS ────────────────────────────────────────────────────── */
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes backdropOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); filter: blur(2px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    filter: blur(0);   }
+}
+@keyframes modalOut {
+  from { opacity: 1; transform: scale(1)    translateY(0); }
+  to   { opacity: 0; transform: scale(0.96) translateY(6px); }
+}
+.dialog-backdrop {
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(12, 12, 10, 0.55);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: backdropIn 0.22s ease both;
+}
+.dialog-panel {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+  animation: modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* REPO CARD */

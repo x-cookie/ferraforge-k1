@@ -89,20 +89,28 @@ export default function HomePage() {
         <div className="hero-grid-bg" aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ maxWidth: 720 }}>
-            <span className="section-label hero-up-0">Claude Code Setup Generator</span>
-            <h1 className="editorial-h hero-up-1" style={{ marginBottom: 26 }}>
-              Your perfect<br />
-              Claude Code setup.<br />
-              <em className="orange">Forged in 30 seconds.</em>
-            </h1>
-            <p className="hero-up-2" style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
-              Paste a GitHub URL or describe your project. Get a production-ready CLAUDE.md,
-              curated skill pack, hooks, and agents — tailored to your exact stack.
-            </p>
-            <div className="hero-up-3" style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-              <button className="btn-primary" onClick={scrollToForge}>Try the Forge →</button>
-              <Link href="/skills" className="btn-outline">Browse 59 Skills</Link>
-            </div>
+            <Reveal>
+              <span className="section-label">Claude Code Setup Generator</span>
+            </Reveal>
+            <Reveal delay={1}>
+              <h1 className="editorial-h" style={{ marginBottom: 26 }}>
+                Your perfect<br />
+                Claude Code setup.<br />
+                <em className="orange">Forged in 30 seconds.</em>
+              </h1>
+            </Reveal>
+            <Reveal delay={2}>
+              <p style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
+                Paste a GitHub URL or describe your project. Get a production-ready CLAUDE.md,
+                curated skill pack, hooks, and agents — tailored to your exact stack.
+              </p>
+            </Reveal>
+            <Reveal delay={3}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button className="btn-primary" onClick={scrollToForge}>Try the Forge →</button>
+                <Link href="/skills" className="btn-outline">Browse 59 Skills</Link>
+              </div>
+            </Reveal>
           </div>
 
           {/* STATS */}
@@ -146,9 +154,7 @@ export default function HomePage() {
       {/* FORGE SECTION */}
       <section className="section" ref={forgeRef as React.RefObject<HTMLElement>}>
         <div className="container">
-          <Reveal>
-            <ForgeCard onForgeComplete={handleForgeComplete} />
-          </Reveal>
+          <ForgeCard onForgeComplete={handleForgeComplete} />
           {forgeResult && (
             <div ref={resultRef}>
               <ResultPreview result={forgeResult} />

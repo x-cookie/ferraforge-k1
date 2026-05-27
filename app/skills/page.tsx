@@ -33,9 +33,7 @@ export default function SkillsPage() {
               59 Claude Code<br /><em>Skills.</em>
             </h1>
           </Reveal>
-          <Reveal delay={2}>
-            <SkillsGrid />
-          </Reveal>
+          <SkillsGrid />
         </div>
       </section>
     </PageWrapper>
