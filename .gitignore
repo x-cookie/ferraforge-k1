@@ -42,4 +42,5 @@ next-env.d.ts
 
 # internal docs / reference files — not part of the deployable source
 *.md
+!README.md
 *.html
