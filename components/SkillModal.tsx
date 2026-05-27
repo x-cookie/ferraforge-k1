@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { Skill, toSlug } from '@/lib/skills'
 
@@ -12,11 +13,15 @@ type Props = {
 export default function SkillModal({ skill, onClose }: Props) {
   useEffect(() => {
     if (!skill) return
+    document.body.style.overflow = 'hidden'
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
   }, [skill, onClose])
 
   if (!skill) return null
@@ -25,7 +30,7 @@ export default function SkillModal({ skill, onClose }: Props) {
     navigator.clipboard.writeText(skill!.snippet)
   }
 
-  return (
+  return createPortal(
     <div className="dialog-backdrop" onClick={onClose}>
       <div
         className="dialog-panel"
@@ -42,18 +47,10 @@ export default function SkillModal({ skill, onClose }: Props) {
           <button
             onClick={onClose}
             style={{
-              background: 'transparent',
-              border: '1px solid var(--border)',
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              cursor: 'pointer',
-              fontSize: 16,
-              color: 'var(--muted)',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              background: 'transparent', border: '1px solid var(--border)',
+              width: 32, height: 32, borderRadius: 8, cursor: 'pointer',
+              fontSize: 18, color: 'var(--muted)', flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
             ×
@@ -98,6 +95,7 @@ export default function SkillModal({ skill, onClose }: Props) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

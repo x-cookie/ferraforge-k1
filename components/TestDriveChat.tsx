@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Skill } from '@/lib/skills'
 
 type Msg = { role: 'user' | 'assistant'; content: string }
@@ -145,8 +146,8 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
         </div>
       </div>
 
-      {/* MODAL — centered dialog */}
-      {open && (
+      {/* MODAL — portaled to document.body so stacking context can't trap it */}
+      {open && createPortal(
         <div className="dialog-backdrop" onClick={() => setOpen(false)}>
           <div
             className="dialog-panel"
@@ -279,7 +280,8 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
               </form>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )

@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { SKILLS, CATEGORIES, toSlug } from '@/lib/skills'
+import { SKILLS, CATEGORIES, toSlug, Skill } from '@/lib/skills'
+import SkillModal from './SkillModal'
 
 export default function SkillsGrid() {
   const [search, setSearch] = useState('')
   const [activeCat, setActiveCat] = useState('All')
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
 
   const filtered = SKILLS.filter(s => {
     const matchCat = activeCat === 'All' || s.cat === activeCat
@@ -57,28 +59,33 @@ export default function SkillsGrid() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 12 }}>
           {filtered.map(skill => (
-            <Link key={skill.id} href={`/skills/${toSlug(skill.title)}`} style={{ textDecoration: 'none', display: 'block' }}>
-              <div className="skill-card" style={{ height: '100%' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                  <span className="badge badge-cat">{skill.cat}</span>
-                  <span className={`badge badge-${skill.diff}`}>{skill.diff}</span>
-                </div>
-                <h3 style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 14.5, marginBottom: 7, lineHeight: 1.3, color: 'var(--text)' }}>
-                  {skill.title}
-                </h3>
-                <p style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.55, marginBottom: 12 }}>
-                  {skill.desc}
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                  {skill.tags.slice(0, 3).map(t => (
-                    <span key={t} className="tag">{t}</span>
-                  ))}
-                </div>
+            <div
+              key={skill.id}
+              className="skill-card"
+              style={{ cursor: 'pointer' }}
+              onClick={() => setSelectedSkill(skill)}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                <span className="badge badge-cat">{skill.cat}</span>
+                <span className={`badge badge-${skill.diff}`}>{skill.diff}</span>
               </div>
-            </Link>
+              <h3 style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 14.5, marginBottom: 7, lineHeight: 1.3, color: 'var(--text)' }}>
+                {skill.title}
+              </h3>
+              <p style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.55, marginBottom: 12 }}>
+                {skill.desc}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                {skill.tags.slice(0, 3).map(t => (
+                  <span key={t} className="tag">{t}</span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )}
+
+      <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
     </>
   )
 }

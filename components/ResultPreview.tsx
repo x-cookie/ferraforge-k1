@@ -66,9 +66,32 @@ function titleToFilename(title: string): string {
     .replace(/^-|-$/g, '') + '.md'
 }
 
+async function generateShareCaption(claudeMd: string, skills: ForgeResult['skills'], tags: string[]): Promise<string> {
+  const snippet = claudeMd.slice(0, 600)
+  const res = await fetch('/api/test-drive', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a developer tweet writer. Generate a single engaging tweet (under 220 characters) for a developer who just generated a custom CLAUDE.md setup. Mention the stack/skills if interesting. Include #ClaudeCode at the end. Output ONLY the tweet text — no quotes, no preamble.',
+        },
+        {
+          role: 'user',
+          content: `Stack detected: ${tags.join(', ')}\nSkills selected: ${skills.map(s => s.title).join(', ')}\n\nCLAUDE.md preview:\n${snippet}`,
+        },
+      ],
+    }),
+  })
+  const data = await res.json()
+  return (data.content as string) ?? `Just forged my perfect CLAUDE.md with ${skills.length} skills for ${tags.slice(0, 2).join(' + ')} — @claudemdforge #ClaudeCode`
+}
+
 export default function ResultPreview({ result }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('claude-md')
   const [copied, setCopied] = useState(false)
+  const [sharing, setSharing] = useState(false)
 
   function downloadZip() {
     const url = URL.createObjectURL(result.zipBlob)
@@ -83,6 +106,20 @@ export default function ResultPreview({ result }: Props) {
     await navigator.clipboard.writeText(result.claudeMd)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  async function shareOnX() {
+    setSharing(true)
+    try {
+      const caption = await generateShareCaption(result.claudeMd, result.skills, result.tags)
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(caption + '\n\nclaudemdforge.site')}`
+      window.open(url, '_blank', 'noopener,noreferrer')
+    } catch {
+      const fallback = `Just forged my CLAUDE.md with ${result.skills.length} skills via claudemdforge.site — #ClaudeCode`
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(fallback)}`, '_blank', 'noopener,noreferrer')
+    } finally {
+      setSharing(false)
+    }
   }
 
   const tabs: { id: Tab; label: string }[] = [
@@ -129,7 +166,7 @@ export default function ResultPreview({ result }: Props) {
                 const { text, color } = colorLine(line)
                 return (
                   <span key={i} style={{ color, display: 'block' }}>
-                    {text || ' '}
+                    {text || ' '}
                   </span>
                 )
               })}
@@ -142,13 +179,9 @@ export default function ResultPreview({ result }: Props) {
                 <div
                   key={skill.id}
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    padding: '11px 16px',
-                    background: 'var(--bg2)',
-                    borderRadius: 9,
-                    border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '11px 16px', background: 'var(--bg2)',
+                    borderRadius: 9, border: '1px solid var(--border)',
                   }}
                 >
                   <span style={{ fontSize: 14 }}>📄</span>
@@ -177,11 +210,16 @@ export default function ResultPreview({ result }: Props) {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13.5, fontWeight: 600, marginBottom: 2 }}>Share your forge</div>
           <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
-            Help other developers find this tool — every share matters.
+            {sharing ? 'Claude is writing your tweet…' : 'Help other developers find this tool — every share matters.'}
           </div>
         </div>
-        <button className="btn-outline" style={{ fontSize: 13, padding: '9px 18px', whiteSpace: 'nowrap' }}>
-          Share on X →
+        <button
+          className="btn-outline"
+          style={{ fontSize: 13, padding: '9px 18px', whiteSpace: 'nowrap', opacity: sharing ? 0.6 : 1 }}
+          onClick={shareOnX}
+          disabled={sharing}
+        >
+          {sharing ? 'Generating…' : 'Share on X →'}
         </button>
       </div>
     </div>
