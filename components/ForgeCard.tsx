@@ -47,7 +47,10 @@ const TERMINAL_LINES: TermLine[] = [
 
 const LINE_H = 22
 const TERM_H = 264
-const VISIBLE = Math.floor(TERM_H / LINE_H) // 12 lines
+const PADDING_TOP = 16
+const PADDING_BOTTOM = 16
+// lines that fit in the content area (excluding top + bottom padding)
+const VISIBLE = Math.floor((TERM_H - PADDING_TOP - PADDING_BOTTOM) / LINE_H) // 10 lines
 
 type Props = { onForgeComplete: (result: ForgeResult) => void }
 
@@ -208,9 +211,13 @@ export default function ForgeCard({ onForgeComplete }: Props) {
             <div className="dot" style={{ background: '#FF5F57' }} />
             <div className="dot" style={{ background: '#FFBD2E' }} />
             <div className="dot" style={{ background: '#28CA41' }} />
-            <span className="mono" style={{ fontSize: 11, color: '#484844', marginLeft: 8 }}>
+            <span className="mono" style={{ fontSize: 11, color: '#555', marginLeft: 8, letterSpacing: 0.3 }}>
               claudemd-forge · github-api · claude-api
             </span>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28CA41', animation: 'pulse 2s ease-in-out infinite' }} />
+              <span className="mono" style={{ fontSize: 10, color: '#2A4A2A', letterSpacing: 1 }}>LIVE</span>
+            </div>
           </div>
           <div className="terminal-body">
             <div

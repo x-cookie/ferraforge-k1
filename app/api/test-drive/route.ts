@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         'X-Title': 'CLAUDE.md Forge',
       },
       body: JSON.stringify({
-        model: 'mistralai/ministral-3b',
+        model: 'mistralai/ministral-3b-2512',
         messages: body.messages,
         max_tokens: 400,
       }),

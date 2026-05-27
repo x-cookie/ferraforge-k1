@@ -164,6 +164,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
         }),
       })
       const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? `API error ${res.status}`)
       setMsgs(m => [...m, { role: 'assistant', content: data.content ?? 'No response.' }])
     } catch {
       setMsgs(m => [...m, { role: 'assistant', content: 'Something went wrong. Try again.' }])
@@ -250,7 +251,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
             {/* Messages */}
             <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 8px', display: 'flex', flexDirection: 'column', gap: 16 }}>
               {msgs.length === 0 && !busy ? (
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, padding: '32px 0', textAlign: 'center' }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, padding: '32px 0', textAlign: 'center' }}>
                   <ClaudeIcon size={48} />
                   <div>
                     <div style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 15, marginBottom: 6 }}>Ask me anything about</div>
@@ -258,11 +259,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
                       {skill.title}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, justifyContent: 'center', marginTop: 8 }}>
-                    {presets.map(q => (
-                      <button key={q} onClick={() => send(q)} className="cat-chip" style={{ fontSize: 12 }}>{q}</button>
-                    ))}
-                  </div>
+                  <p style={{ fontSize: 12, color: 'var(--faint)', margin: 0 }}>Use the quick questions below or type your own</p>
                 </div>
               ) : (
                 <>
@@ -300,8 +297,23 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
               )}
             </div>
 
+            {/* Preset chips — always visible above input */}
+            <div style={{ padding: '8px 16px 0', flexShrink: 0, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {presets.map(q => (
+                <button
+                  key={q}
+                  onClick={() => send(q)}
+                  disabled={busy}
+                  className="cat-chip"
+                  style={{ fontSize: 11.5, opacity: busy ? 0.45 : 1, transition: 'opacity 0.2s' }}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+
             {/* Input */}
-            <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0, borderRadius: '0 0 20px 20px' }}>
+            <div style={{ padding: '10px 16px 12px', borderTop: '1px solid var(--border)', flexShrink: 0, borderRadius: '0 0 20px 20px', marginTop: 8 }}>
               <form onSubmit={e => { e.preventDefault(); send() }} style={{ display: 'flex', gap: 8 }}>
                 <input
                   ref={inputRef}
