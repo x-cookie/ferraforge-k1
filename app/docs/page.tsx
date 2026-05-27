@@ -258,7 +258,7 @@ export default function DocsPage() {
               <Prop name="OPENROUTER_API_KEY" type="string" req>
                 OpenRouter API key used for CLAUDE.md generation. Obtain from{' '}
                 <span style={{ color: 'var(--orange)' }}>openrouter.ai/keys</span>.
-                All generation runs through the <Code>deepseek/deepseek-v3-2</Code> model.
+                All generation runs through the <Code>Claude</Code> model.
               </Prop>
               <Prop name="GITHUB_TOKEN" type="string">
                 GitHub Personal Access Token. Without it, the GitHub API is limited to 60 unauthenticated requests per hour per IP.
@@ -470,13 +470,13 @@ export default function DocsPage() {
             <p style={{ marginBottom: 16 }}>
               The model is configured in <Code>lib/claude.ts</Code>. To swap models, change the <Code>model</Code> field in the OpenRouter request body:
             </p>
-            <Block>{`// lib/claude.ts\nbody: JSON.stringify({\n  model: 'deepseek/deepseek-v3-2',   // change this\n  messages: [...],\n  max_tokens: 2000,\n})`}</Block>
+            <Block>{`// lib/claude.ts\nbody: JSON.stringify({\n  model: 'mistralai/ministral-3b-2512',   // change this\n  messages: [...],\n  max_tokens: 2000,\n})`}</Block>
             <p style={{ marginBottom: 16 }}>
               Any OpenRouter-supported model can be used. Faster / cheaper alternatives:
             </p>
             <div style={{ display: 'grid', gap: 8 }}>
               {[
-                { id: 'deepseek/deepseek-v3-2', note: 'Default — fast, high quality, cheap' },
+                { id: 'mistralai/ministral-3b-2512', note: 'Default — fast, high quality, cheap' },
                 { id: 'mistralai/mistral-small-3.1', note: 'Lightweight, very low cost' },
                 { id: 'google/gemini-flash-1.5', note: 'Fast, good instruction following' },
                 { id: 'anthropic/claude-3-5-haiku', note: 'Best instruction following, higher cost' },

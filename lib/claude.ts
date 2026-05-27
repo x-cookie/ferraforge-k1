@@ -40,7 +40,7 @@ export async function callClaude(stackContext: string, selectedSkills: Skill[]):
       'X-Title': 'CLAUDE.md Forge',
     },
     body: JSON.stringify({
-      model: 'deepseek/deepseek-v3-2',
+      model: 'mistralai/ministral-3b-2512',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `Project context:\n\n${stackContext}` },
