@@ -151,18 +151,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* FORGE SECTION */}
-      <section className="section" ref={forgeRef as React.RefObject<HTMLElement>}>
-        <div className="container">
-          <ForgeCard onForgeComplete={handleForgeComplete} />
-          {forgeResult && (
-            <div ref={resultRef}>
-              <ResultPreview result={forgeResult} />
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* POWERED BY REPOS */}
       <section style={{ padding: '72px 0', background: 'var(--dark)', borderTop: '1px solid #222' }}>
         <div className="container">
@@ -272,6 +260,18 @@ export default function HomePage() {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* FORGE SECTION */}
+      <section className="section" ref={forgeRef as React.RefObject<HTMLElement>} style={{ borderTop: '1px solid var(--border)' }}>
+        <div className="container">
+          <ForgeCard onForgeComplete={handleForgeComplete} />
+          {forgeResult && (
+            <div ref={resultRef}>
+              <ResultPreview result={forgeResult} />
+            </div>
+          )}
         </div>
       </section>
 

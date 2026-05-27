@@ -592,6 +592,16 @@ textarea.input-field { resize: none; height: 96px; line-height: 1.6; }
 
 hr { border: none; border-top: 1px solid var(--border); }
 
+/* ── TERMINAL CURSOR ─────────────────────────────────────────────────────── */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.terminal-cursor {
+  display: inline-block;
+  color: #E05C15;
+  animation: blink 1s step-end infinite;
+  font-family: var(--font-dm-mono), DM Mono, monospace;
+  font-size: 13px;
+}
+
 /* ── DIALOG ANIMATIONS ────────────────────────────────────────────────────── */
 @keyframes backdropIn {
   from { opacity: 0; }
