@@ -19,15 +19,6 @@ Skill details:
 Answer concisely (under 180 words). Focus on practical use cases, how this skill improves Claude Code sessions, and when to use it. Use code examples only when genuinely helpful.`
 }
 
-const PRESETS: Record<string, string[]> = {
-  default: [
-    'What does this skill actually do?',
-    'When would Forge auto-select it?',
-    'Show me a usage example',
-    'Is this beginner-friendly?',
-  ],
-}
-
 function getPresets(skill: Skill): string[] {
   return [
     `What does ${skill.title} do exactly?`,
@@ -57,16 +48,28 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
   useEffect(() => {
     if (open) {
       setTimeout(() => inputRef.current?.focus(), 80)
+      document.body.style.overflow = 'hidden'
     } else {
       setMsgs([])
       setInput('')
       setBusy(false)
+      document.body.style.overflow = ''
     }
+    return () => { document.body.style.overflow = '' }
   }, [open])
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [msgs, busy])
+
+  useEffect(() => {
+    if (!open) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   async function send(text?: string) {
     const content = (text ?? input).trim()
@@ -118,7 +121,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
             {presets.slice(0, 3).map(q => (
               <button
                 key={q}
-                onClick={() => { setOpen(true); setTimeout(() => send(q), 120) }}
+                onClick={() => { setOpen(true); setTimeout(() => send(q), 150) }}
                 style={{
                   textAlign: 'left', padding: '7px 10px', background: 'var(--bg2)',
                   border: '1px solid var(--border)', borderRadius: 8, fontSize: 12,
@@ -142,28 +145,18 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL — centered dialog */}
       {open && (
-        <div
-          className="overlay"
-          onClick={() => setOpen(false)}
-          style={{ alignItems: 'flex-end', padding: 0 }}
-        >
+        <div className="dialog-backdrop" onClick={() => setOpen(false)}>
           <div
+            className="dialog-panel"
             onClick={e => e.stopPropagation()}
             style={{
-              background: 'var(--bg)',
-              borderRadius: '18px 18px 0 0',
               width: '100%',
-              maxWidth: 600,
-              margin: '0 auto',
-              height: '82vh',
+              maxWidth: 560,
+              height: 'min(82vh, 660px)',
               display: 'flex',
               flexDirection: 'column',
-              border: '1px solid var(--border)',
-              borderBottom: 'none',
-              boxShadow: '0 -24px 80px rgba(0,0,0,0.18)',
-              animation: 'slideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) both',
             }}
           >
             {/* Header */}
@@ -173,9 +166,8 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              background: 'var(--white)',
-              borderRadius: '18px 18px 0 0',
               flexShrink: 0,
+              borderRadius: '20px 20px 0 0',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <ClaudeLogo size={28} />
@@ -236,7 +228,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
                         maxWidth: '80%',
                         padding: '10px 14px',
                         borderRadius: m.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
-                        background: m.role === 'user' ? 'var(--text)' : 'var(--white)',
+                        background: m.role === 'user' ? 'var(--text)' : 'var(--bg2)',
                         color: m.role === 'user' ? '#fff' : 'var(--text)',
                         border: m.role === 'assistant' ? '1px solid var(--border)' : 'none',
                         fontSize: 13.5,
@@ -250,7 +242,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
                   {busy && (
                     <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                       <div style={{ flexShrink: 0, marginTop: 2 }}><ClaudeLogo size={22} /></div>
-                      <div style={{ padding: '10px 14px', borderRadius: '14px 14px 14px 4px', background: 'var(--white)', border: '1px solid var(--border)', display: 'flex', gap: 4, alignItems: 'center' }}>
+                      <div style={{ padding: '10px 14px', borderRadius: '14px 14px 14px 4px', background: 'var(--bg2)', border: '1px solid var(--border)', display: 'flex', gap: 4, alignItems: 'center' }}>
                         {[0, 1, 2].map(i => (
                           <div key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--orange)', animation: `pulse 1.2s ${i * 0.2}s infinite` }} />
                         ))}
@@ -262,7 +254,7 @@ export default function TestDriveChat({ skill }: { skill: Skill }) {
             </div>
 
             {/* Input */}
-            <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
+            <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0, borderRadius: '0 0 20px 20px' }}>
               <form
                 onSubmit={e => { e.preventDefault(); send() }}
                 style={{ display: 'flex', gap: 8 }}

@@ -1,16 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import SkillsGrid from '@/components/SkillsGrid'
-import SkillModal from '@/components/SkillModal'
 import PageWrapper from '@/components/PageWrapper'
 import Reveal from '@/components/Reveal'
-import { Skill } from '@/lib/skills'
 
 export default function SkillsPage() {
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
-
   return (
     <PageWrapper>
       {/* NAV */}
@@ -39,12 +34,10 @@ export default function SkillsPage() {
             </h1>
           </Reveal>
           <Reveal delay={2}>
-            <SkillsGrid onOpenModal={setSelectedSkill} />
+            <SkillsGrid />
           </Reveal>
         </div>
       </section>
-
-      <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
     </PageWrapper>
   )
 }

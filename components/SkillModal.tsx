@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { Skill, toSlug } from '@/lib/skills'
 
@@ -9,6 +10,15 @@ type Props = {
 }
 
 export default function SkillModal({ skill, onClose }: Props) {
+  useEffect(() => {
+    if (!skill) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [skill, onClose])
+
   if (!skill) return null
 
   function copySnippet() {
@@ -16,12 +26,16 @@ export default function SkillModal({ skill, onClose }: Props) {
   }
 
   return (
-    <div className="overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
+    <div className="dialog-backdrop" onClick={onClose}>
+      <div
+        className="dialog-panel"
+        onClick={e => e.stopPropagation()}
+        style={{ width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto', padding: 28 }}
+      >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
             <span className="badge badge-cat" style={{ marginBottom: 8, display: 'inline-block' }}>{skill.cat}</span>
-            <h2 style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 800, fontSize: 24, lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 800, fontSize: 22, lineHeight: 1.2 }}>
               {skill.title}
             </h2>
           </div>
@@ -37,6 +51,9 @@ export default function SkillModal({ skill, onClose }: Props) {
               fontSize: 16,
               color: 'var(--muted)',
               flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             ×
@@ -68,20 +85,17 @@ export default function SkillModal({ skill, onClose }: Props) {
         </div>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button className="btn-primary" style={{ fontSize: 13.5, padding: '11px 22px' }} onClick={onClose}>
-            Use in Forge 🔨
-          </button>
-          <button className="btn-outline" style={{ fontSize: 13.5 }} onClick={copySnippet}>
-            Copy Skill
-          </button>
           <Link
             href={`/skills/${toSlug(skill.title)}`}
-            className="btn-outline"
-            style={{ fontSize: 13.5 }}
+            className="btn-primary"
+            style={{ fontSize: 13.5, padding: '11px 22px' }}
             onClick={onClose}
           >
             Full details →
           </Link>
+          <button className="btn-outline" style={{ fontSize: 13.5 }} onClick={copySnippet}>
+            Copy Skill
+          </button>
         </div>
       </div>
     </div>
