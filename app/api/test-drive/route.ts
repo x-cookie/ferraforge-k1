@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         'X-Title': 'CLAUDE.md Forge',
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-v3-2',
+        model: 'mistralai/ministral-3b',
         messages: body.messages,
         max_tokens: 400,
       }),

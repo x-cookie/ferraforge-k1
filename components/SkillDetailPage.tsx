@@ -5,6 +5,7 @@ import Link from 'next/link'
 import PageWrapper from './PageWrapper'
 import Reveal from './Reveal'
 import TestDriveChat from './TestDriveChat'
+import Toast from './Toast'
 import { Skill, SKILLS, toSlug } from '@/lib/skills'
 
 const DIFF_COLOR: Record<string, string> = {
@@ -20,30 +21,38 @@ const DIFF_BG: Record<string, string> = {
 
 function CopyButton({ text, label = 'Copy' }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false)
+  const [toastVisible, setToastVisible] = useState(false)
+
   function copy() {
     navigator.clipboard.writeText(text)
     setCopied(true)
+    setToastVisible(true)
     setTimeout(() => setCopied(false), 1800)
+    setTimeout(() => setToastVisible(false), 2400)
   }
+
   return (
-    <button className="btn-dark" onClick={copy} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-      {copied ? (
-        <>
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="2,9 6,13 14,3"/>
-          </svg>
-          Copied!
-        </>
-      ) : (
-        <>
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="5" y="2" width="9" height="9" rx="1.5"/>
-            <path d="M11 11v2a1.5 1.5 0 01-1.5 1.5H2A1.5 1.5 0 01.5 13V5A1.5 1.5 0 012 3.5h2"/>
-          </svg>
-          {label}
-        </>
-      )}
-    </button>
+    <>
+      <button className="btn-dark" onClick={copy} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+        {copied ? (
+          <>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="2,9 6,13 14,3"/>
+            </svg>
+            Copied!
+          </>
+        ) : (
+          <>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="5" y="2" width="9" height="9" rx="1.5"/>
+              <path d="M11 11v2a1.5 1.5 0 01-1.5 1.5H2A1.5 1.5 0 01.5 13V5A1.5 1.5 0 012 3.5h2"/>
+            </svg>
+            {label}
+          </>
+        )}
+      </button>
+      <Toast visible={toastVisible} message="Skill snippet copied to clipboard" />
+    </>
   )
 }
 
