@@ -71,3 +71,7 @@ export const SKILLS: Skill[] = [
 ]
 
 export const CATEGORIES = ["All", ...([...new Set(SKILLS.map(s => s.cat))])]
+
+export function toSlug(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
