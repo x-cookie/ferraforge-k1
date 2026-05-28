@@ -193,6 +193,78 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* WHY WE BUILT THIS */}
+      <section style={{ padding: '88px 0', background: 'var(--bg)', borderTop: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
+
+            {/* LEFT — headline */}
+            <div>
+              <Reveal>
+                <span className="section-label">// Why we built this</span>
+                <h2 className="section-h" style={{ marginBottom: 22 }}>
+                  Claude is only as good<br />as what you<br /><em className="orange">tell it about you.</em>
+                </h2>
+              </Reveal>
+              <Reveal delay={1}>
+                <p style={{ fontSize: 15, color: 'var(--muted)', lineHeight: 1.8, marginBottom: 28, maxWidth: 420 }}>
+                  We kept opening new projects and doing the same thing — writing CLAUDE.md from scratch, copy-pasting snippets,
+                  wondering if we missed a skill. Every time. Forge exists so you never have to do that again.
+                </p>
+              </Reveal>
+              <Reveal delay={2}>
+                <p style={{ fontSize: 13.5, color: 'var(--faint)', lineHeight: 1.75, maxWidth: 400, borderLeft: '2px solid var(--orange)', paddingLeft: 16 }}>
+                  A developer who spends 30 minutes configuring Claude properly will outcode someone who skips it entirely —
+                  every single session, indefinitely.
+                </p>
+              </Reveal>
+            </div>
+
+            {/* RIGHT — honest truths */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, paddingTop: 8 }}>
+              {[
+                {
+                  n: '01',
+                  title: 'Setup friction kills adoption',
+                  body: 'Most developers never configure CLAUDE.md. Not because they don\'t care — because figuring out what to put in it takes longer than the first feature they want to ship.',
+                },
+                {
+                  n: '02',
+                  title: 'Generic prompts get generic code',
+                  body: 'Claude doesn\'t know you use Prisma, not raw SQL. Or that you\'re on App Router, not Pages. Without that context, it guesses — and guesses wrong half the time.',
+                },
+                {
+                  n: '03',
+                  title: 'Every stack deserves a custom context',
+                  body: 'A Go service and a Next.js SaaS shouldn\'t share the same CLAUDE.md. Forge detects your actual stack and selects the skills that matter for it.',
+                },
+              ].map((item, i) => (
+                <Reveal key={item.n} delay={(i + 1) as 1 | 2 | 3}>
+                  <div style={{
+                    padding: '28px 0',
+                    borderBottom: '1px solid var(--border)',
+                    display: 'flex', gap: 20,
+                  }}>
+                    <div className="mono" style={{ fontSize: 11, color: 'var(--orange)', fontWeight: 700, flexShrink: 0, paddingTop: 3, letterSpacing: 1 }}>
+                      {item.n}
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 15, marginBottom: 8, color: 'var(--text)' }}>
+                        {item.title}
+                      </div>
+                      <p style={{ fontSize: 13.5, color: 'var(--muted)', lineHeight: 1.7, margin: 0 }}>
+                        {item.body}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section">
         <div className="container">
