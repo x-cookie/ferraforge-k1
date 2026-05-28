@@ -78,7 +78,7 @@ export default function HomePage() {
           </div>
           <span className="nav-link active">Home</span>
           <Link href="/skills" className="nav-link">Skills Library</Link>
-          <span className="nav-link muted">Docs</span>
+          <Link href="/docs" className="nav-link">Docs</Link>
           <div className="nav-spacer" />
           <button className="nav-cta" onClick={scrollToForge}>Start Forging →</button>
         </div>
@@ -167,23 +167,26 @@ export default function HomePage() {
           </Reveal>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(195px, 1fr))', gap: 12 }}>
             {[
-              { name: 'Karpathy Skills', slug: 'andrej-karpathy-skills', desc: "Andrej Karpathy's coding philosophy — think clearly, write simply, reason step-by-step" },
-              { name: 'Repomix', slug: 'yamadashy/repomix', desc: 'Pack entire repos into AI-friendly context. Powers the GitHub URL scan pipeline' },
-              { name: 'Awesome Claude Skills', slug: 'awesome-claude-skills', desc: 'Community-curated library of Claude Code skills — the backbone of the 59-skill library' },
-              { name: 'Superpowers', slug: 'superpowers', desc: 'Extended Claude capabilities — advanced agent configs and tooling patterns' },
-              { name: 'ECC', slug: 'ECC', desc: 'Extended Claude Code — deep workflow automation and integration patterns' },
+              { name: 'Karpathy Skills', slug: 'karpathy', url: 'https://github.com/karpathy', desc: "Andrej Karpathy's coding philosophy — think clearly, write simply, reason step-by-step" },
+              { name: 'Repomix', slug: 'yamadashy/repomix', url: 'https://github.com/yamadashy/repomix', desc: 'Pack entire repos into AI-friendly context. Powers the GitHub URL scan pipeline' },
+              { name: 'Awesome Claude Skills', slug: 'awesome-claude-code', url: 'https://github.com/hesreallyhim/awesome-claude-code', desc: 'Community-curated library of Claude Code skills — the backbone of the 59-skill library' },
+              { name: 'Superpowers', slug: 'claude-code', url: 'https://github.com/anthropics/anthropic-quickstarts', desc: 'Extended Claude capabilities — advanced agent configs and tooling patterns' },
+              { name: 'ECC', slug: 'extended-cc', url: 'https://github.com/anthropics/claude-code', desc: 'Extended Claude Code — deep workflow automation and integration patterns' },
             ].map((repo, i) => (
               <Reveal key={repo.slug} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
-                <div
-                  style={{ border: '1px solid #2A2A24', borderRadius: 12, padding: 22, background: '#1A1A15', transition: 'border-color .2s', height: '100%' }}
-                  onMouseOver={e => (e.currentTarget.style.borderColor = '#E05C15')}
-                  onMouseOut={e => (e.currentTarget.style.borderColor = '#2A2A24')}
+                <a
+                  href={repo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'block', textDecoration: 'none', border: '1px solid #2A2A24', borderRadius: 12, padding: 22, background: '#1A1A15', transition: 'border-color .2s, transform .2s', height: '100%' }}
+                  onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#E05C15'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)' }}
+                  onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#2A2A24'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}
                 >
                   <div style={{ color: '#E05C15', marginBottom: 14 }}><RepoSvgIcon variant={i} /></div>
                   <div style={{ fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, fontSize: 14, color: '#FAFAF7', marginBottom: 4 }}>{repo.name}</div>
                   <div className="mono" style={{ fontSize: 10.5, color: 'var(--orange)', marginBottom: 10 }}>{repo.slug}</div>
                   <div style={{ fontSize: 12.5, color: '#666', lineHeight: 1.6 }}>{repo.desc}</div>
-                </div>
+                </a>
               </Reveal>
             ))}
           </div>

@@ -45,6 +45,39 @@ const TERMINAL_LINES: TermLine[] = [
   { c: '#22C55E', t: '✓ Done · All repo sizes supported', d: 280 },
 ]
 
+const STACK_TEMPLATES = [
+  {
+    label: 'Next.js SaaS',
+    tags: ['Next.js 14', 'TypeScript', 'Prisma', 'Tailwind'],
+    value: 'Next.js 14 SaaS app with App Router, TypeScript strict mode, Prisma ORM with PostgreSQL, Tailwind CSS, shadcn/ui components. Deployed on Vercel with edge middleware and server actions.',
+  },
+  {
+    label: 'Python API',
+    tags: ['FastAPI', 'PostgreSQL', 'Docker', 'JWT'],
+    value: 'Python FastAPI backend with PostgreSQL, SQLAlchemy async ORM, Pydantic v2, Alembic migrations, Docker Compose. JWT authentication with refresh tokens.',
+  },
+  {
+    label: 'React Native',
+    tags: ['Expo', 'TypeScript', 'Zustand', 'React Query'],
+    value: 'React Native mobile app with Expo SDK 51, TypeScript, Zustand for state management, React Query for data fetching, Expo Router for navigation.',
+  },
+  {
+    label: 'Django REST',
+    tags: ['Django 5', 'DRF', 'Celery', 'Redis'],
+    value: 'Django 5 REST API with Django REST Framework, Celery + Redis task queue, PostgreSQL, Docker Compose. JWT auth via SimpleJWT, OpenAPI schema with drf-spectacular.',
+  },
+  {
+    label: 'Vue 3 SPA',
+    tags: ['Vue 3', 'Vite', 'Pinia', 'Tailwind'],
+    value: 'Vue 3 SPA with Vite, TypeScript strict mode, Pinia state management, Vue Router 4, Tailwind CSS. REST API with Axios and VeeValidate forms.',
+  },
+  {
+    label: 'Go Backend',
+    tags: ['Go', 'Gin', 'PostgreSQL', 'Docker'],
+    value: 'Go backend service with Gin HTTP framework, PostgreSQL with sqlc for type-safe queries, Docker containerization, JWT authentication, structured logging with slog.',
+  },
+]
+
 const LINE_H = 22
 const TERM_H = 264
 const PADDING_TOP = 16
@@ -58,7 +91,9 @@ function sleep(ms: number) { return new Promise<void>(r => setTimeout(r, ms)) }
 
 export default function ForgeCard({ onForgeComplete }: Props) {
   const [mode, setMode] = useState<'url' | 'describe'>('url')
-  const [input, setInput] = useState('')
+  const [urlInput, setUrlInput] = useState('')
+  const [descInput, setDescInput] = useState('')
+  const input = mode === 'url' ? urlInput : descInput
   const [loading, setLoading] = useState(false)
   const [steps, setSteps] = useState<string[]>([])
   const [progress, setProgress] = useState(0)
@@ -155,8 +190,8 @@ export default function ForgeCard({ onForgeComplete }: Props) {
               <input
                 className="input-field"
                 placeholder="https://github.com/username/repository"
-                value={input}
-                onChange={e => setInput(e.target.value)}
+                value={urlInput}
+                onChange={e => setUrlInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleForge()}
               />
               <p className="mono" style={{ fontSize: 11, color: 'var(--faint)', marginTop: 8 }}>
@@ -164,12 +199,46 @@ export default function ForgeCard({ onForgeComplete }: Props) {
               </p>
             </div>
           ) : (
-            <textarea
-              className="input-field"
-              placeholder="e.g. Next.js 14 SaaS with Prisma, TypeScript strict mode, Tailwind, deployed on Vercel."
-              value={input}
-              onChange={e => setInput(e.target.value)}
-            />
+            <div>
+              <div style={{ marginBottom: 10 }}>
+                <div className="mono" style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, color: 'var(--faint)', textTransform: 'uppercase', marginBottom: 7 }}>
+                  Quick templates
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {STACK_TEMPLATES.map(tpl => (
+                    <button
+                      key={tpl.label}
+                      type="button"
+                      onClick={() => setDescInput(tpl.value)}
+                      style={{
+                        padding: '5px 10px', borderRadius: 6, fontSize: 12,
+                        border: `1px solid ${descInput === tpl.value ? 'var(--orange)' : 'var(--border)'}`,
+                        background: descInput === tpl.value ? 'var(--orange-light)' : 'var(--bg2)',
+                        color: descInput === tpl.value ? 'var(--orange)' : 'var(--muted)',
+                        cursor: 'pointer', transition: 'all 0.15s', fontFamily: 'inherit',
+                        display: 'flex', alignItems: 'center', gap: 5,
+                      }}
+                      onMouseOver={e => { if (descInput !== tpl.value) { (e.currentTarget).style.borderColor = 'var(--orange)'; (e.currentTarget).style.color = 'var(--orange)' }}}
+                      onMouseOut={e => { if (descInput !== tpl.value) { (e.currentTarget).style.borderColor = 'var(--border)'; (e.currentTarget).style.color = 'var(--muted)' }}}
+                    >
+                      <span>{tpl.label}</span>
+                      <span style={{ display: 'flex', gap: 3 }}>
+                        {tpl.tags.slice(0, 2).map(t => (
+                          <span key={t} style={{ fontSize: 9.5, padding: '1px 5px', borderRadius: 3, background: 'rgba(0,0,0,0.06)', color: 'inherit', fontFamily: 'var(--font-dm-mono), DM Mono, monospace' }}>{t}</span>
+                        ))}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <textarea
+                className="input-field"
+                placeholder="e.g. Next.js 14 SaaS with Prisma, TypeScript strict mode, Tailwind, deployed on Vercel."
+                value={descInput}
+                onChange={e => setDescInput(e.target.value)}
+                style={{ minHeight: 90 }}
+              />
+            </div>
           )}
 
           {loading && steps.length > 0 && (
@@ -196,7 +265,14 @@ export default function ForgeCard({ onForgeComplete }: Props) {
             onClick={handleForge}
             style={{ width: '100%', justifyContent: 'center', marginTop: 16 }}
           >
-            {loading ? <><div className="spinner" /> Forging...</> : 'Forge It 🔨'}
+            {loading ? <><div className="spinner" /> Forging...</> : (
+              <>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Forge It
+              </>
+            )}
           </button>
           <p style={{ fontSize: 11.5, color: 'var(--faint)', textAlign: 'center', marginTop: 10 }}>
             Free · 5 forges per day · No login required
