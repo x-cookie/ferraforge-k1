@@ -127,7 +127,7 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
             <span className="badge" style={{ background: DIFF_BG[skill.diff], color: DIFF_COLOR[skill.diff] }}>
               {skill.diff}
             </span>
-            <span className="mono" style={{ fontSize: 11, color: '#444', letterSpacing: 1 }}>
+            <span className="mono" style={{ fontSize: 11, color: '#777', letterSpacing: 1 }}>
               #{String(skill.id).padStart(2, '0')} · {posInCat} of {totalInCat} in category
             </span>
           </div>
@@ -140,7 +140,7 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
             {skill.title}
           </h1>
 
-          <p className="hero-up-2" style={{ fontSize: 15.5, color: '#888', maxWidth: 580, lineHeight: 1.75, marginBottom: 22 }}>
+          <p className="hero-up-2" style={{ fontSize: 15.5, color: '#AEACA5', maxWidth: 580, lineHeight: 1.75, marginBottom: 22 }}>
             {skill.desc}
           </p>
 
@@ -148,7 +148,7 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
             {skill.tags.map(t => (
               <span key={t} style={{
                 padding: '3px 9px', borderRadius: 5, background: '#1C1C18',
-                border: '1px solid #333', color: '#666', fontSize: 11.5,
+                border: '1px solid #3A3A32', color: '#999', fontSize: 11.5,
                 fontFamily: 'var(--font-dm-mono), DM Mono, monospace',
               }}>{t}</span>
             ))}
@@ -365,7 +365,7 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
               <h2 className="section-h" style={{ color: '#FAFAF7', marginBottom: 14 }}>
                 Add <em style={{ color: 'var(--orange)' }}>{skill.title}</em><br />to your project
               </h2>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.7, marginBottom: 26 }}>
+              <p style={{ color: '#999', fontSize: 14, lineHeight: 1.7, marginBottom: 26 }}>
                 Forge auto-selects this skill along with 5–7 others tailored to your stack.
               </p>
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -386,7 +386,7 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
                 <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                 <span className="nav-logo-text" style={{ color: '#FAFAF7' }}>Ferra<span className="orange">.forge</span></span>
               </div>
-              <p style={{ fontSize: 12.5, color: '#444', maxWidth: 240, lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: 12.5, color: '#777', maxWidth: 240, lineHeight: 1.6, margin: 0 }}>
                 {"Claude Code setup agent. 59 curated skills, forged for your stack."}
               </p>
             </div>
@@ -394,27 +394,27 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
             {/* Links */}
             <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap' }}>
               <div>
-                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#333', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Product</div>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#666', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Product</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <Link href="/" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Home</Link>
-                  <Link href="/skills" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Skills Library</Link>
-                  <Link href="/docs" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Docs</Link>
+                  <Link href="/" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Home</Link>
+                  <Link href="/skills" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Skills Library</Link>
+                  <Link href="/docs" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Docs</Link>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#333', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Built on</div>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#666', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Built on</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <a href="https://github.com/karpathy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Karpathy</a>
-                  <a href="https://github.com/yamadashy/repomix" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Repomix</a>
-                  <a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Awesome Claude</a>
+                  <a href="https://github.com/karpathy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Karpathy</a>
+                  <a href="https://github.com/yamadashy/repomix" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Repomix</a>
+                  <a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>Awesome Claude</a>
                 </div>
               </div>
             </div>
           </div>
 
           <div style={{ paddingTop: 20, borderTop: '1px solid #1E1E18' }}>
-            <p style={{ fontSize: 11, color: '#2A2A24', textAlign: 'center', margin: 0 }}>
-              Ferra &middot; claudemdforge.site &middot; Built with Karpathy wisdom, GitHub API, and Awesome Claude Skills
+            <p style={{ fontSize: 11, color: '#555', textAlign: 'center', margin: 0 }}>
+              Ferra &middot; claudemdforge.site &middot; Built with Karpathy wisdom, GitHub API &amp; Awesome Claude Skills
             </p>
           </div>
         </div>
