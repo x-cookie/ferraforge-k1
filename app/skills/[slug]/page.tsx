@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const skill = SKILLS.find(s => toSlug(s.title) === slug)
   if (!skill) return {}
   return {
-    title: `${skill.title} — CLAUDE.md Forge`,
+    title: `${skill.title} — Ferra`,
     description: skill.desc,
   }
 }
