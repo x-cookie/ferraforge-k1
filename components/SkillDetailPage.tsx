@@ -377,14 +377,45 @@ export default function SkillDetailPage({ skill, related, prev, next }: Props) {
         </div>
       </section>
 
-      <footer style={{ padding: '28px', borderTop: '1px solid #1E1E18', background: 'var(--dark)' }}>
+      <footer style={{ padding: '40px 28px', borderTop: '1px solid #1E1E18', background: 'var(--dark)' }}>
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div className="nav-logo">
-              <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-              <span className="nav-logo-text" style={{ color: '#FAFAF7' }}>Ferra<span className="orange">.forge</span></span>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 32, marginBottom: 32 }}>
+            {/* Brand */}
+            <div>
+              <div className="nav-logo" style={{ marginBottom: 10 }}>
+                <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                <span className="nav-logo-text" style={{ color: '#FAFAF7' }}>Ferra<span className="orange">.forge</span></span>
+              </div>
+              <p style={{ fontSize: 12.5, color: '#444', maxWidth: 240, lineHeight: 1.6, margin: 0 }}>
+                {"Claude Code setup agent. 59 curated skills, forged for your stack."}
+              </p>
             </div>
-            <p style={{ fontSize: 11, color: '#333' }}>claudemdforge.site</p>
+
+            {/* Links */}
+            <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap' }}>
+              <div>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#333', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Product</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <Link href="/" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Home</Link>
+                  <Link href="/skills" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Skills Library</Link>
+                  <Link href="/docs" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Docs</Link>
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: 10, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#333', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 12 }}>Built on</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <a href="https://github.com/karpathy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Karpathy</a>
+                  <a href="https://github.com/yamadashy/repomix" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Repomix</a>
+                  <a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}>Awesome Claude</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ paddingTop: 20, borderTop: '1px solid #1E1E18' }}>
+            <p style={{ fontSize: 11, color: '#2A2A24', textAlign: 'center', margin: 0 }}>
+              Ferra &middot; claudemdforge.site &middot; Built with Karpathy wisdom, GitHub API, and Awesome Claude Skills
+            </p>
           </div>
         </div>
       </footer>
