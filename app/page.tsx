@@ -102,9 +102,13 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={2}>
               <p style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
-                Ferra is an AI agent with 59 curated skills. Paste a GitHub URL or describe your
-                stack — she scans your repo, maps your tech, and generates a production-ready
-                CLAUDE.md tailored exactly to how you build.
+                Claude is only as useful as what you tell it about your project. Ferra handles
+                that part — she reads your repo, matches your stack against 59 curated skills,
+                and generates a production-ready CLAUDE.md in 30 seconds.
+                <br /><br />
+                <span style={{ fontSize: 15, color: 'var(--faint)' }}>
+                  Built for developers who'd rather ship than configure.
+                </span>
               </p>
             </Reveal>
             <Reveal delay={3}>
