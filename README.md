@@ -1,13 +1,19 @@
-# CLAUDE.md Forge
+<div align="center">
 
-**59 curated Claude Code skills, auto-selected and bundled for any GitHub repository in 30 seconds.**
+<img src="public/ferra-mascot.jpeg" alt="Ferra" width="180" style="border-radius:50%;margin-bottom:16px" />
+
+# Ferra
+
+**59 curated code skills. Auto-selected for your stack.**
 
 ![version](https://img.shields.io/badge/version-1.0.0-black?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 ![skills](https://img.shields.io/badge/skills-59-E05C15?style=flat-square)
 ![stacks](https://img.shields.io/badge/stacks-12+-E05C15?style=flat-square)
 
-CLAUDE.md Forge is a Next.js utility site that analyzes any GitHub repository — or a plain-text stack description — and generates a complete Claude Code configuration: a tailored `CLAUDE.md`, a curated skill pack, pre-commit hooks, and a setup guide, all bundled into a downloadable ZIP. Paste a URL, click Forge, drop the ZIP in your project root. Claude Code reads it automatically every session.
+</div>
+
+Ferra is an AI agent that reads your GitHub repo — or a plain-text stack description — and generates a complete Claude Code configuration: a tailored `CLAUDE.md`, a curated skill pack, pre-commit hooks, and a setup guide, all bundled into a downloadable ZIP. Paste a URL, click Forge, drop the ZIP in your project root. Claude Code reads it automatically every session.
 
 ---
 

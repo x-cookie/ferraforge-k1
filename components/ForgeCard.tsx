@@ -173,7 +173,7 @@ export default function ForgeCard({ onForgeComplete }: Props) {
       <div>
         <span className="section-label">The Forge</span>
         <h2 className="section-h" style={{ marginBottom: 10 }}>
-          Input your<br /><em>project.</em>
+          Tell Ferra about<br /><em>your project.</em>
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: 14.5, marginBottom: 28, lineHeight: 1.65 }}>
           Two modes — paste a GitHub URL for automatic scanning, or describe your stack manually.

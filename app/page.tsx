@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ForgeCard, { ForgeResult } from '@/components/ForgeCard'
 import ResultPreview from '@/components/ResultPreview'
 import PageWrapper from '@/components/PageWrapper'
@@ -9,9 +10,9 @@ import Reveal from '@/components/Reveal'
 import { CATEGORIES } from '@/lib/skills'
 
 const TAPE_ITEMS = [
-  'CLAUDE.md', 'SKILLS PACK', 'PRE-COMMIT HOOKS', 'KARPATHY PRINCIPLES',
+  'CLAUDE.md', 'FERRA AGENT', 'PRE-COMMIT HOOKS', 'KARPATHY PRINCIPLES',
   'GITHUB API', 'TECH STACK DETECTION', 'SETUP GUIDE',
-  '59 CLAUDE SKILLS', 'CLAUDE CODE READY',
+  "FERRA'S 59 SKILLS", 'CLAUDE CODE READY', 'SKILLS PACK',
 ]
 
 function RepoSvgIcon({ variant }: { variant: number }) {
@@ -73,8 +74,8 @@ export default function HomePage() {
       <nav>
         <div className="nav-inner">
           <div className="nav-logo">
-            <div className="logo-mark">🔨</div>
-            <span className="nav-logo-text">CLAUDE<span className="orange">.md</span> Forge</span>
+            <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+            <span className="nav-logo-text">Ferra<span className="orange">.forge</span></span>
           </div>
           <span className="nav-link active">Home</span>
           <Link href="/skills" className="nav-link">Skills Library</Link>
@@ -90,19 +91,20 @@ export default function HomePage() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ maxWidth: 720 }}>
             <Reveal>
-              <span className="section-label">Claude Code Setup Generator</span>
+              <span className="section-label">AI Code Context Agent</span>
             </Reveal>
             <Reveal delay={1}>
               <h1 className="editorial-h" style={{ marginBottom: 26 }}>
-                Your perfect<br />
-                Claude Code setup.<br />
-                <em className="orange">Forged in 30 seconds.</em>
+                Meet Ferra.<br />
+                Your Claude Code setup,<br />
+                <em className="orange">forged in 30 seconds.</em>
               </h1>
             </Reveal>
             <Reveal delay={2}>
               <p style={{ fontSize: 17, color: 'var(--muted)', maxWidth: 500, lineHeight: 1.7, marginBottom: 38 }}>
-                Paste a GitHub URL or describe your project. Get a production-ready CLAUDE.md,
-                curated skill pack, hooks, and agents — tailored to your exact stack.
+                Ferra is an AI agent with 59 curated skills. Paste a GitHub URL or describe your
+                stack — she scans your repo, maps your tech, and generates a production-ready
+                CLAUDE.md tailored exactly to how you build.
               </p>
             </Reveal>
             <Reveal delay={3}>
@@ -123,7 +125,7 @@ export default function HomePage() {
               borderBottom: '1px solid var(--border)',
             }}>
               {[
-                { num: '59', label: 'CURATED SKILLS' },
+                { num: '59', label: "FERRA'S SKILLS" },
                 { num: '5', label: 'SOURCE REPOS' },
                 { num: '30s', label: 'AVERAGE FORGE TIME', orange: true },
                 { num: '7', label: 'FILES GENERATED' },
@@ -276,8 +278,8 @@ export default function HomePage() {
               </Reveal>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
                 {[
-                  { n: '01', title: 'Input your project', desc: 'Paste a GitHub URL — Forge uses a config-first scan. Or describe your stack manually in plain text.' },
-                  { n: '02', title: 'AI builds your setup', desc: 'Claude detects your stack and selects the right skills from 59 options. Your CLAUDE.md is generated with Karpathy-inspired principles.' },
+                  { n: '01', title: 'Tell Ferra about your project', desc: 'Paste a GitHub URL — Ferra runs a config-first scan. Or describe your stack in plain text.' },
+                  { n: '02', title: 'Ferra selects your skills', desc: 'She detects your stack and picks the right skills from her library of 59. Your CLAUDE.md is generated with Karpathy-inspired principles.' },
                   { n: '03', title: 'Drop it in your repo', desc: 'Download a ZIP with CLAUDE.md, skill files, hooks, and a setup guide. Claude Code auto-reads it every session.' },
                 ].map((step, i) => (
                   <Reveal key={step.n} delay={(i + 1) as 1 | 2 | 3}>
@@ -316,7 +318,7 @@ export default function HomePage() {
             <Reveal>
               <div>
                 <span className="section-label">Skill Library</span>
-                <h2 className="section-h">59 Claude Skills.<br /><em className="orange">Auto-selected.</em></h2>
+                <h2 className="section-h">{"Ferra's 59 Skills."}<br /><em className="orange">Auto-selected.</em></h2>
               </div>
             </Reveal>
             <Reveal delay={2}>
@@ -355,8 +357,8 @@ export default function HomePage() {
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
             <div className="nav-logo">
-              <div className="logo-mark">🔨</div>
-              <span className="nav-logo-text">CLAUDE<span className="orange">.md</span> Forge</span>
+              <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+              <span className="nav-logo-text">Ferra<span className="orange">.forge</span></span>
             </div>
             <div style={{ display: 'flex', gap: 22, alignItems: 'center' }}>
               <Link href="/skills" className="nav-link">Skills</Link>
@@ -366,7 +368,7 @@ export default function HomePage() {
           </div>
           <div style={{ marginTop: 22, paddingTop: 22, borderTop: '1px solid var(--border)' }}>
             <p style={{ fontSize: 11.5, color: 'var(--faint)', textAlign: 'center' }}>
-              claudemdforge.site · Built with Karpathy wisdom, GitHub API, and Awesome Claude Skills
+              Ferra &middot; claudemdforge.site &middot; Built with Karpathy wisdom, GitHub API, and Awesome Claude Skills
             </p>
           </div>
         </div>

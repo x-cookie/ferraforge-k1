@@ -28,8 +28,8 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "CLAUDE.md Forge",
-  description: "Generate a production-ready CLAUDE.md, curated skill pack, hooks, and setup guide — tailored to your exact stack.",
+  title: "Ferra — CLAUDE.md Forge",
+  description: "Ferra is an AI agent with 59 curated skills. Paste a GitHub URL or describe your stack — she generates a production-ready CLAUDE.md, skill pack, hooks, and setup guide in 30 seconds.",
 };
 
 export default function RootLayout({

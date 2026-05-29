@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import PageWrapper from '@/components/PageWrapper'
 
 const NAV = [
@@ -134,8 +135,8 @@ export default function DocsPage() {
       <nav>
         <div className="nav-inner">
           <Link href="/" className="nav-logo" style={{ textDecoration: 'none' }}>
-            <div className="logo-mark">🔨</div>
-            <span className="nav-logo-text">CLAUDE<span className="orange">.md</span> Forge</span>
+            <Image src="/ferra-mascot.jpeg" alt="Ferra" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+            <span className="nav-logo-text">Ferra<span className="orange">.forge</span></span>
           </Link>
           <Link href="/" className="nav-link">Home</Link>
           <Link href="/skills" className="nav-link">Skills Library</Link>
