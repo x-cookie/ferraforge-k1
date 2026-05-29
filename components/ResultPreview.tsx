@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ForgeResult } from './ForgeCard'
 import { Skill } from '@/lib/skills'
@@ -208,49 +208,184 @@ function SkillsModal({ skills, onClose }: { skills: Skill[]; onClose: () => void
   )
 }
 
+function inlineFormat(text: string, baseKey = 0): React.ReactNode {
+  const segments: React.ReactNode[] = []
+  let remaining = text
+  let k = baseKey
+
+  while (remaining.length > 0) {
+    const codeIdx = remaining.indexOf('`')
+    const boldIdx = remaining.indexOf('**')
+    const italicIdx = (() => {
+      let idx = remaining.indexOf('*')
+      while (idx !== -1 && remaining[idx + 1] === '*') idx = remaining.indexOf('*', idx + 2)
+      return idx
+    })()
+
+    const candidates = [
+      codeIdx >= 0 ? codeIdx : Infinity,
+      boldIdx >= 0 ? boldIdx : Infinity,
+      italicIdx >= 0 ? italicIdx : Infinity,
+    ]
+    const minIdx = Math.min(...candidates)
+
+    if (minIdx === Infinity) { segments.push(remaining); break }
+
+    if (minIdx > 0) { segments.push(remaining.slice(0, minIdx)); remaining = remaining.slice(minIdx) }
+
+    if (candidates[1] === minIdx) {
+      // **bold**
+      const end = remaining.indexOf('**', 2)
+      if (end === -1) { segments.push(remaining); break }
+      segments.push(<strong key={k++} style={{ color: '#FAFAF7', fontWeight: 700 }}>{remaining.slice(2, end)}</strong>)
+      remaining = remaining.slice(end + 2)
+    } else if (candidates[0] === minIdx) {
+      // `code`
+      const end = remaining.indexOf('`', 1)
+      if (end === -1) { segments.push(remaining); break }
+      segments.push(
+        <code key={k++} style={{ fontFamily: 'var(--font-dm-mono), DM Mono, monospace', background: 'rgba(255,255,255,0.08)', padding: '1px 6px', borderRadius: 3, fontSize: '0.88em', color: '#E6C07B' }}>
+          {remaining.slice(1, end)}
+        </code>
+      )
+      remaining = remaining.slice(end + 1)
+    } else {
+      // *italic*
+      const end = remaining.indexOf('*', 1)
+      if (end === -1) { segments.push(remaining); break }
+      segments.push(<em key={k++} style={{ color: '#BDBDB3', fontStyle: 'italic' }}>{remaining.slice(1, end)}</em>)
+      remaining = remaining.slice(end + 1)
+    }
+  }
+
+  return segments.length === 1 ? segments[0] : <>{segments}</>
+}
+
 function MarkdownPreview({ content }: { content: string }) {
   const lines = content.split('\n')
   return (
     <div style={{ padding: '20px 24px', fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif', maxWidth: 680 }}>
       {lines.map((line, i) => {
-        if (!line.trim()) return <div key={i} style={{ height: 8 }} />
-        if (line.startsWith('# ')) return (
+        const t = line.trim()
+        if (!t) return <div key={i} style={{ height: 8 }} />
+
+        // ATX headings
+        if (t.startsWith('# ')) return (
           <h1 key={i} style={{ color: '#E05C15', fontSize: 19, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 800, margin: i > 0 ? '22px 0 6px' : '0 0 6px', lineHeight: 1.3 }}>
-            {line.slice(2)}
+            {inlineFormat(t.slice(2), i * 100)}
           </h1>
         )
-        if (line.startsWith('## ')) return (
+        if (t.startsWith('## ')) return (
           <h2 key={i} style={{ color: '#FAFAF7', fontSize: 14.5, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, margin: '18px 0 5px', letterSpacing: 0.2 }}>
-            {line.slice(3)}
+            {inlineFormat(t.slice(3), i * 100)}
           </h2>
         )
-        if (line.startsWith('### ')) return (
+        if (t.startsWith('### ')) return (
           <h3 key={i} style={{ color: '#BDBDB3', fontSize: 13, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, margin: '14px 0 4px' }}>
-            {line.slice(4)}
+            {inlineFormat(t.slice(4), i * 100)}
           </h3>
         )
-        if (line.startsWith('- ') || line.startsWith('* ')) return (
-          <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 4, fontSize: 13.5, lineHeight: 1.65 }}>
-            <span style={{ color: '#A8D8A4', flexShrink: 0, marginTop: 2 }}>•</span>
-            <span style={{ color: '#C8C6BC' }}>{line.slice(2)}</span>
-          </div>
+        if (t.startsWith('#### ')) return (
+          <h4 key={i} style={{ color: '#AEACA5', fontSize: 12.5, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, margin: '12px 0 3px' }}>
+            {inlineFormat(t.slice(5), i * 100)}
+          </h4>
         )
-        if (line.startsWith('→') || line.startsWith('->')) return (
-          <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4, fontSize: 13, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#7AB8F5' }}>
-            {line}
-          </div>
+
+        // Bold-as-heading: entire line is **text** (model style)
+        const boldHeading = t.match(/^\*\*(.+)\*\*$/)
+        if (boldHeading) {
+          const numSection = boldHeading[1].match(/^(\d+)\.\s+(.+)/)
+          if (numSection) return (
+            <h3 key={i} style={{ color: '#E05C15', fontSize: 13.5, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, margin: '20px 0 5px', display: 'flex', gap: 8, alignItems: 'baseline' }}>
+              <span style={{ fontSize: 10.5, opacity: 0.6, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', flexShrink: 0 }}>{numSection[1]}.</span>
+              {inlineFormat(numSection[2], i * 100)}
+            </h3>
+          )
+          return (
+            <h2 key={i} style={{ color: '#FAFAF7', fontSize: 14.5, fontFamily: 'var(--font-syne), Syne, sans-serif', fontWeight: 700, margin: '18px 0 5px', letterSpacing: 0.2 }}>
+              {boldHeading[1]}
+            </h2>
+          )
+        }
+
+        // Italic subtitle: entire line is *text*
+        const italicLine = t.match(/^\*([^*].+[^*])\*$/)
+        if (italicLine) return (
+          <p key={i} style={{ fontSize: 13, color: '#888', fontStyle: 'italic', margin: '0 0 12px', lineHeight: 1.6 }}>
+            {italicLine[1]}
+          </p>
         )
-        if (line.startsWith('[Source')) return (
-          <div key={i} style={{ fontSize: 11, color: '#555', fontFamily: 'var(--font-dm-mono), DM Mono, monospace', marginTop: 4, marginBottom: 8 }}>
-            {line}
-          </div>
-        )
-        if (line.startsWith('---')) return (
+
+        // Horizontal rule
+        if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) return (
           <hr key={i} style={{ border: 'none', borderTop: '1px solid #2A2A24', margin: '16px 0' }} />
         )
+
+        // Ordered list: 1. or 1)
+        const orderedMatch = t.match(/^(\d+)[.)]\s+(.+)/)
+        if (orderedMatch) return (
+          <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 4, fontSize: 13.5, lineHeight: 1.65 }}>
+            <span style={{ color: '#E05C15', opacity: 0.65, flexShrink: 0, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', fontSize: 11, paddingTop: 3, minWidth: 16, textAlign: 'right' }}>{orderedMatch[1]}.</span>
+            <span style={{ color: '#C8C6BC' }}>{inlineFormat(orderedMatch[2], i * 100)}</span>
+          </div>
+        )
+
+        // Markdown bullets: - item or * item (with space)
+        if (t.startsWith('- ') || t.startsWith('* ')) return (
+          <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 4, fontSize: 13.5, lineHeight: 1.65 }}>
+            <span style={{ color: '#A8D8A4', flexShrink: 0, marginTop: 2 }}>•</span>
+            <span style={{ color: '#C8C6BC' }}>{inlineFormat(t.slice(2), i * 100)}</span>
+          </div>
+        )
+
+        // Direct bullet character: • item
+        if (t.startsWith('•')) return (
+          <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 4, fontSize: 13.5, lineHeight: 1.65 }}>
+            <span style={{ color: '#A8D8A4', flexShrink: 0, marginTop: 2 }}>•</span>
+            <span style={{ color: '#C8C6BC' }}>{inlineFormat(t.slice(1).trim(), i * 100)}</span>
+          </div>
+        )
+
+        // Arrow lines
+        if (t.startsWith('→') || t.startsWith('->')) return (
+          <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4, fontSize: 13, fontFamily: 'var(--font-dm-mono), DM Mono, monospace', color: '#7AB8F5' }}>
+            {t}
+          </div>
+        )
+
+        // Blockquote
+        if (t.startsWith('> ')) return (
+          <div key={i} style={{ borderLeft: '2px solid #E05C15', paddingLeft: 12, marginBottom: 6, fontSize: 13.5, color: '#888', fontStyle: 'italic', lineHeight: 1.65 }}>
+            {inlineFormat(t.slice(2), i * 100)}
+          </div>
+        )
+
+        // Table row: | cell | cell |
+        if (t.startsWith('|') && t.endsWith('|')) {
+          if (/^\|[\s\-:|]+\|$/.test(t)) return <div key={i} />
+          const cells = t.slice(1, -1).split('|').map(c => c.trim())
+          return (
+            <div key={i} style={{ display: 'flex', marginBottom: 1 }}>
+              {cells.map((cell, ci) => (
+                <div key={ci} style={{ flex: 1, padding: '4px 8px', borderBottom: '1px solid #2A2A24', fontSize: 12.5, color: '#C8C6BC' }}>
+                  {inlineFormat(cell, i * 100 + ci)}
+                </div>
+              ))}
+            </div>
+          )
+        }
+
+        // Source citation
+        if (t.startsWith('[Source')) return (
+          <div key={i} style={{ fontSize: 11, color: '#555', fontFamily: 'var(--font-dm-mono), DM Mono, monospace', marginTop: 4, marginBottom: 8 }}>
+            {t}
+          </div>
+        )
+
+        // Default paragraph with inline formatting
         return (
           <p key={i} style={{ fontSize: 13.5, color: '#C8C6BC', margin: '0 0 3px', lineHeight: 1.75 }}>
-            {line}
+            {inlineFormat(t, i * 100)}
           </p>
         )
       })}
