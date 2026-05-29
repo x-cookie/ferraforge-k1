@@ -18,7 +18,7 @@ export default function SkillsPage() {
           </Link>
           <Link href="/" className="nav-link">Home</Link>
           <span className="nav-link active">Skills Library</span>
-          <span className="nav-link muted">Docs</span>
+          <Link href="/docs" className="nav-link">Docs</Link>
           <div className="nav-spacer" />
           <Link href="/" className="nav-cta">Start Forging →</Link>
         </div>
