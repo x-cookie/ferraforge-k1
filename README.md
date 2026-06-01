@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="public/ferra-mascot.jpeg" alt="Ferra" width="180" style="border-radius:50%;margin-bottom:16px" />
 
 # Ferra
+<img src="public/banner.jpeg" alt="Ferra" />
 
 **59 curated code skills. Auto-selected for your stack.**
 
