@@ -10,6 +10,7 @@
 ![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 ![skills](https://img.shields.io/badge/skills-59-E05C15?style=flat-square)
 ![stacks](https://img.shields.io/badge/stacks-12+-E05C15?style=flat-square)
+[![Follow on X](https://img.shields.io/badge/Follow-%40ferraforge-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/ferraforge)
 
 </div>
 
