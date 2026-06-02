@@ -14,7 +14,7 @@
 
 </div>
 
-**Contract Address:** `TBA`
+**Contract Address:** `3zmjpra45LG1wQ3afVTY2eeEbiXx8sj5fnnDuC6Cpump`
 
 Claude is only as useful as what you tell it about your project. Ferra handles that part.
 

@@ -158,7 +158,7 @@ export default function HomePage() {
       <div style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', background: 'var(--bg2)', padding: '14px 28px' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Contract Address</span>
-          <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--faint)', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 12px', letterSpacing: '0.04em' }}>TBA</span>
+          <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--faint)', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 12px', letterSpacing: '0.04em' }}>3zmjpra45LG1wQ3afVTY2eeEbiXx8sj5fnnDuC6Cpump</span>
         </div>
       </div>
 
