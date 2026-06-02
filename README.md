@@ -14,6 +14,8 @@
 
 </div>
 
+**Contract Address:** `TBA`
+
 Claude is only as useful as what you tell it about your project. Ferra handles that part.
 
 She reads your GitHub repo — or a plain-text stack description — matches your dependencies against 59 curated skills, and generates a production-ready CLAUDE.md in 30 seconds. Drop the ZIP in your project root. Claude Code reads it automatically every session.
